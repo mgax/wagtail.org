@@ -2,14 +2,20 @@
 
 {% if value.page %}
     <a href="{{ value.page.url }}" class="teaser grid">
-        {% image value.page.main_image fill-495x495 class="teaser__image" loading="lazy" %}
+        {% if value.page.listing_image %}
+            {% image value.page.listing_image fill-495x495 class="teaser__image" loading="lazy" %}
+        {% elif value.page.main_image %}
+            {% image value.page.main_image fill-495x495 class="teaser__image" loading="lazy" %}
+        {% endif %}
 
         <div class="teaser__content">
             {% include "patterns/components/meta/meta.html" with classes="teaser__meta meta--offset-icon" %}
 
             <h2 class="teaser__heading">{{ value.page.title }}</h2>
 
-            {% if value.page.introduction %}
+            {% if value.page.listing_intro %}
+                <p class="teaser__intro">{{ value.page.listing_intro }}</p>
+            {% elif value.page.introduction %}
                 <p class="teaser__intro">{{ value.page.introduction }}</p>
             {% endif %}
 

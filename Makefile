@@ -12,26 +12,26 @@ help:  ## ⁉️  - Display help comments for each make command
 		| sort
 
 setup: build  ## 🔨 - Set instance up
-	docker-compose run --rm web django-admin migrate
-	docker-compose run --rm web django-admin createcachetable
+	docker compose run --rm web django-admin migrate
+	docker compose run --rm web django-admin createcachetable
 
 build:  ## 🔨 - Build Docker container
-	bash -c "docker-compose build --build-arg UID=$$(id -u) --build-arg GID=$$(id -g)"
+	docker compose build --build-arg UID=$$(id -u) --build-arg GID=$$(id -g)
 
 start:	## 🎬 - Start containers
-	docker-compose up
+	docker compose up
 
 sh:	## Enter the web container
-	docker-compose exec web bash
+	docker compose exec web bash
 
 runserver:	## 🏃 - Run Django server
-	docker-compose exec web django-admin runserver 0.0.0.0:8000
+	docker compose exec web bash -c "DJANGO_RUNSERVER_HIDE_WARNING=true django-admin runserver 0.0.0.0:8000"
 
 superuser:	## 🔒 - Create superuser
-	docker-compose run --rm web django-admin createsuperuser
+	docker compose run --rm web django-admin createsuperuser
 
 migrations:	## 🧳 - Make migrations
-	docker-compose run --rm web django-admin makemigrations
+	docker compose run --rm web django-admin makemigrations
 
 migrate:  ## 🧳 - Migrate
-	docker-compose run --rm web django-admin migrate
+	docker compose run --rm web django-admin migrate

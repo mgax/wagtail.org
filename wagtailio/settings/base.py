@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.sitemaps",
+    "django.contrib.postgres",
     "whitenoise.runserver_nostatic",  # Must be before `django.contrib.staticfiles`
     "django.contrib.staticfiles",
     "taggit",
@@ -85,7 +86,6 @@ INSTALLED_APPS = [
     "wagtailio.roadmap",
     "wagtailio.services",
     "wagtailio.showcase",
-    "wagtailio.areweheadlessyet",
     "wagtailio.sitewide_alert",
     "wagtailmedia",
     "wagtail_newsletter",
