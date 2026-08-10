@@ -1,5 +1,5 @@
 from django.core.management import call_command
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
 
 ARCHIVE_URLS = {
@@ -90,8 +90,17 @@ class Command(BaseCommand):
     help = "Import all archived newsletters"
 
     def handle(self, *args, **options):
+        failures = []
         for issue_num, url in ARCHIVE_URLS.items():
             title = f"Issue #{issue_num}"
             self.stdout.write(f"Importing {title}...")
-            call_command("import_newsletter", url, title)
-            self.stdout.write(self.style.SUCCESS(f"Successfully imported {title}"))
+            try:
+                call_command("import_newsletter", url, title)
+            except Exception as error:  # noqa: BLE001 - keep going, report at the end
+                self.stderr.write(self.style.ERROR(f"{title} failed: {error}"))
+                failures.append(title)
+            else:
+                self.stdout.write(self.style.SUCCESS(f"Successfully imported {title}"))
+
+        if failures:
+            raise CommandError(f"{len(failures)} issues failed: {', '.join(failures)}")
